@@ -1,0 +1,2426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instrumental CNEAS / Rede SUAS - Formulário de Preenchimento e Devolução</title>
+  <style>
+    :root {
+      --primary: #1b5e20;
+      --primary-dark: #0f3d14;
+      --primary-light: #e8f5e9;
+      --secondary: #0284c7;
+      --secondary-light: #e0f2fe;
+      --bg: #f3f4f6;
+      --surface: #ffffff;
+      --border: #d1d5db;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 20px 16px 60px;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header-card {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      border-top: 5px solid var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-title p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .header-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1px solid #c8e6c9;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Barra de Ações Rápidas */
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      background: var(--surface);
+      padding: 12px 18px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .action-bar-left, .action-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      box-shadow: 0 2px 8px rgba(27, 94, 32, 0.3);
+    }
+
+    .btn-secondary {
+      background-color: #ffffff;
+      color: #374151;
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background-color: #f9fafb;
+      border-color: #9ca3af;
+    }
+
+    .btn-accent {
+      background-color: #0284c7;
+      color: white;
+    }
+    .btn-accent:hover {
+      background-color: #0369a1;
+    }
+
+    .btn-danger {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+    .btn-danger:hover {
+      background-color: #fca5a5;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+
+    /* Abas de Navegação */
+    .tabs-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background: var(--bg);
+      padding: 6px 0 14px 0;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      background: #e5e7eb;
+      padding: 6px;
+      border-radius: 8px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 175px;
+      padding: 10px 14px;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #4b5563;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      background: var(--surface);
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      border-bottom: 3px solid var(--primary);
+    }
+
+    /* Cards e Formulários */
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-card {
+      background: var(--surface);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-subinfo {
+      background-color: #f8fafc;
+      border-left: 4px solid var(--secondary);
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      color: #334155;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    /* Grids e Campos */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+
+    .col-12 { grid-column: span 12; }
+    .col-9  { grid-column: span 9; }
+    .col-8  { grid-column: span 8; }
+    .col-6  { grid-column: span 6; }
+    .col-4  { grid-column: span 4; }
+    .col-3  { grid-column: span 3; }
+    .col-2  { grid-column: span 2; }
+
+    @media (max-width: 900px) {
+      .col-9, .col-8, .col-6, .col-4, .col-3, .col-2 {
+        grid-column: span 12;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    label {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .req {
+      color: #dc2626;
+      font-weight: bold;
+      margin-left: 2px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="email"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: var(--text);
+      background-color: #fff;
+      transition: all 0.2s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.15);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 75px;
+    }
+
+    /* Blocos de Perguntas */
+    .question-block {
+      background: #fafafa;
+      border: 1px solid #edf2f7;
+      border-radius: 6px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+    }
+
+    .question-title {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 10px;
+    }
+
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .radio-row, .checkbox-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .option-label {
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: normal;
+      color: #334155;
+      cursor: pointer;
+    }
+
+    .option-label input[type="radio"],
+    .option-label input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--primary);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .sub-field {
+      margin-top: 10px;
+      padding-left: 20px;
+      border-left: 2px solid #cbd5e1;
+    }
+
+    /* Matriz de Articulação */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+    }
+
+    table.matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      text-align: center;
+      background: #fff;
+    }
+
+    table.matrix-table th,
+    table.matrix-table td {
+      border: 1px solid #cbd5e1;
+      padding: 7px 5px;
+    }
+
+    table.matrix-table thead th {
+      background: #f1f5f9;
+      color: #1e293b;
+      font-weight: 600;
+      vertical-align: middle;
+      line-height: 1.25;
+    }
+
+    table.matrix-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: #334155;
+      width: 25%;
+      min-width: 210px;
+      padding-left: 10px;
+      background: #f8fafc;
+    }
+
+    table.matrix-table input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Recursos Humanos Card */
+    .rh-card {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .rh-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed #cbd5e1;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.88rem;
+    }
+
+    /* Assinatura de Devolução */
+    .signature-section {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 2px dashed #cbd5e1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .signature-box {
+      text-align: center;
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .signature-line {
+      border-bottom: 1px solid #000;
+      margin-bottom: 6px;
+      height: 35px;
+    }
+
+    .delivery-notice {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary);
+      border-top: 1px dashed #cbd5e1;
+      padding-top: 5px;
+      letter-spacing: 0.2px;
+    }
+
+    /* Banner de Instruções de Entrega */
+    .instructions-banner {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-left: 5px solid var(--primary);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .instructions-icon {
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .instructions-text strong {
+      color: var(--primary-dark);
+      font-size: 0.92rem;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .instructions-text p {
+      color: #065f46;
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+
+    /* Barra de Ações por Aba */
+    .tab-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 10px 16px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      border: 1px solid #e5e7eb;
+    }
+
+    .tab-toolbar-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-toolbar-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Estilos de Impressão Ajustados para 100% (Tamanho Real A4) */
+    @page {
+      size: A4 portrait;
+      margin: 8mm 6mm 8mm 6mm;
+    }
+
+    @media print {
+      *, *:before, *:after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        box-sizing: border-box !important;
+      }
+
+      html, body {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        font-size: 8.5pt !important;
+        color: #000000 !important;
+        line-height: 1.3 !important;
+      }
+
+      .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .tabs-wrapper,
+      .action-bar,
+      .no-print,
+      .btn {
+        display: none !important;
+      }
+
+      .header-card {
+        border-top: none !important;
+        border-bottom: 2px solid #000 !important;
+        box-shadow: none !important;
+        padding: 4px 0 8px 0 !important;
+        margin-bottom: 10px !important;
+      }
+
+      .header-title h1 {
+        font-size: 11pt !important;
+        color: #000 !important;
+      }
+
+      .header-title p {
+        font-size: 7.5pt !important;
+        color: #444 !important;
+      }
+
+      .header-badge {
+        font-size: 7.5pt !important;
+        padding: 2px 6px !important;
+        border: 1px solid #777 !important;
+        color: #000 !important;
+      }
+
+      .tab-content {
+        display: block !important;
+      }
+
+      .tab-content.tab-inactive-print {
+        display: none !important;
+      }
+
+      .form-card {
+        box-shadow: none !important;
+        border: 1px solid #777 !important;
+        margin-bottom: 10px !important;
+        padding: 8px 10px !important;
+        page-break-inside: auto !important;
+      }
+
+      .section-title {
+        font-size: 9.5pt !important;
+        font-weight: 700 !important;
+        color: #000 !important;
+        border-bottom: 1.5px solid #555 !important;
+        padding-bottom: 3px !important;
+        margin-bottom: 8px !important;
+      }
+
+      .section-subinfo {
+        font-size: 7.5pt !important;
+        line-height: 1.3 !important;
+        padding: 4px 6px !important;
+        margin-bottom: 8px !important;
+        border-left: 3px solid #333 !important;
+        background: #f9fafb !important;
+      }
+
+      .form-grid {
+        gap: 5px 6px !important;
+      }
+
+      .form-group {
+        gap: 1px !important;
+      }
+
+      label {
+        font-size: 7.5pt !important;
+        font-weight: 600 !important;
+        color: #000 !important;
+      }
+
+      input[type="text"],
+      input[type="date"],
+      input[type="email"],
+      input[type="number"],
+      select,
+      textarea {
+        border: 1px solid #666 !important;
+        font-size: 8pt !important;
+        background: transparent !important;
+        padding: 2px 4px !important;
+        height: auto !important;
+        min-height: 20px !important;
+        color: #000 !important;
+      }
+
+      textarea {
+        min-height: 38px !important;
+        line-height: 1.2 !important;
+      }
+
+      .question-block {
+        border: 1px solid #999 !important;
+        background: transparent !important;
+        margin-bottom: 8px !important;
+        padding: 6px 8px !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .question-title {
+        font-size: 8.5pt !important;
+        font-weight: 700 !important;
+        margin-bottom: 4px !important;
+        color: #000 !important;
+      }
+
+      .option-label {
+        font-size: 7.8pt !important;
+        color: #000 !important;
+        gap: 5px !important;
+      }
+
+      .option-label input[type="radio"],
+      .option-label input[type="checkbox"] {
+        width: 12px !important;
+        height: 12px !important;
+        margin-top: 1px !important;
+        accent-color: #000 !important;
+      }
+
+      .sub-field {
+        margin-top: 5px !important;
+        padding-left: 12px !important;
+        border-left: 2px solid #999 !important;
+      }
+
+      /* Removendo scrollbars no print para que todo o conteúdo apareça */
+      .checkbox-group[style*="max-height"],
+      div[style*="max-height"] {
+        max-height: none !important;
+        overflow: visible !important;
+        border: none !important;
+        padding: 0 !important;
+      }
+
+      /* Tabela Matriz de Articulação ajustada para largura 100% retrato */
+      .table-container {
+        width: 100% !important;
+        overflow: visible !important;
+        border: none !important;
+        margin-top: 6px !important;
+      }
+
+      table.matrix-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+      }
+
+      table.matrix-table tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      table.matrix-table th,
+      table.matrix-table td {
+        border: 1px solid #444 !important;
+        padding: 2px 1px !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        line-height: 1.1 !important;
+      }
+
+      table.matrix-table thead th {
+        background: #f0f0f0 !important;
+        color: #000 !important;
+        font-size: 5.8pt !important;
+        font-weight: 700 !important;
+      }
+
+      table.matrix-table td:first-child {
+        width: 27% !important;
+        min-width: 0 !important;
+        font-size: 6.8pt !important;
+        padding-left: 3px !important;
+        background: #fafafa !important;
+        text-align: left !important;
+      }
+
+      table.matrix-table thead th:first-child {
+        width: 27% !important;
+      }
+
+      table.matrix-table thead th:not(:first-child),
+      table.matrix-table tbody td:not(:first-child) {
+        width: 7.3% !important;
+        text-align: center !important;
+      }
+
+      table.matrix-table input[type="checkbox"] {
+        width: 11px !important;
+        height: 11px !important;
+        margin: 0 auto !important;
+        display: block !important;
+        accent-color: #000 !important;
+      }
+
+      /* Recursos Humanos */
+      .rh-card {
+        padding: 5px 8px !important;
+        margin-bottom: 6px !important;
+        border: 1px solid #777 !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .rh-card-header {
+        font-size: 8pt !important;
+        margin-bottom: 4px !important;
+        padding-bottom: 2px !important;
+        border-bottom: 1px dashed #777 !important;
+      }
+
+      .signature-section {
+        margin-top: 15px !important;
+        padding-top: 10px !important;
+        border-top: 1px solid #777 !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        display: flex !important;
+        justify-content: center !important;
+      }
+
+      .signature-box {
+        text-align: center !important;
+        width: 60% !important;
+        max-width: 380px !important;
+        margin: 0 auto !important;
+      }
+
+      .signature-line {
+        height: 22px !important;
+        border-bottom: 1px solid #000 !important;
+      }
+
+      .delivery-notice {
+        margin-top: 5px !important;
+        font-size: 7.2pt !important;
+        color: #000 !important;
+        font-weight: 700 !important;
+        border-top: 1px dotted #444 !important;
+        padding-top: 3px !important;
+      }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 1000;
+      animation: fadeIn 0.3s;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header Geral -->
+  <header class="header-card">
+    <div class="header-title">
+      <h1>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        CNEAS - Cadastro Nacional de Entidades de Assistência Social
+      </h1>
+      <p>Rede SUAS • Ministério do Desenvolvimento e Assistência Social • Instrumental de Preenchimento</p>
+    </div>
+    <div class="header-badge">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Instrumental CNEAS Oficial
+    </div>
+  </header>
+
+  <!-- Banner de Orientações de Preenchimento e Entrega -->
+  <div class="instructions-banner no-print">
+    <div class="instructions-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    </div>
+    <div class="instructions-text">
+      <strong>INSTRUÇÕES DE PREENCHIMENTO E DEVOLUÇÃO:</strong>
+      <p>Preencha as informações solicitadas nos campos abaixo. Ao terminar, clique em <strong>"Imprimir / Salvar em PDF"</strong>, <strong>assine no campo do Representante Legal da Entidade</strong> e <strong>entregue na Secretaria de Assistência Social</strong>.</p>
+    </div>
+  </div>
+
+  <!-- Barra Superior de Controle e Impressão -->
+  <div class="action-bar no-print">
+    <div class="action-bar-left">
+      <button type="button" class="btn btn-primary" onclick="printTabMode('current')" title="Gera PDF ou imprime a aba em exibição">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Imprimir / Salvar PDF (Aba Atual)
+      </button>
+
+      <button type="button" class="btn btn-accent" onclick="printTabMode('package')" title="Gera PDF com Cadastro + Diagnóstico + Oferta Aberta">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        Imprimir Pacote da Oferta
+      </button>
+
+      <button type="button" class="btn btn-secondary" onclick="printTabMode('all')" title="Gera PDF completo com todas as seções">
+        Imprimir Todas as Abas
+      </button>
+    </div>
+
+    <div class="action-bar-right">
+      <button type="button" class="btn btn-secondary" onclick="exportDataJSON()" title="Baixar arquivo dos dados preenchidos como backup">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Baixar Dados (.json)
+      </button>
+
+      <label class="btn btn-secondary" style="cursor: pointer; margin-bottom: 0;" title="Carregar dados de arquivo anterior">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Carregar Dados
+        <input type="file" id="importJsonInput" accept=".json" style="display:none;" onchange="importDataJSON(event)">
+      </label>
+
+      <button type="button" class="btn btn-danger" onclick="clearFormData()" title="Limpar dados do formulário">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+        Limpar
+      </button>
+    </div>
+  </div>
+
+  <!-- Abas de Navegação -->
+  <div class="tabs-wrapper no-print">
+    <nav class="nav-tabs" role="tablist">
+      <button class="tab-btn active" onclick="switchTab('tab-entidade')">1. Cadastro Geral (CNEAS)</button>
+      <button class="tab-btn" onclick="switchTab('tab-diagnostico')">2. Diagnóstico & Articulação</button>
+      <button class="tab-btn" onclick="switchTab('tab-beneficios')">3. Benefícios Assistenciais</button>
+      <button class="tab-btn" onclick="switchTab('tab-assessoramento')">4. Assessoramento & Direitos</button>
+      <button class="tab-btn" onclick="switchTab('tab-programas')">5. Programas & Projetos</button>
+      <button class="tab-btn" onclick="switchTab('tab-servico')">6. Serviços Socioassistenciais</button>
+    </nav>
+  </div>
+
+  <!-- Formulário Geral -->
+  <form id="cneasMainForm">
+
+    <!-- ============================================================== -->
+    <!-- ABA 1: CADASTRO GERAL DA ENTIDADE                              -->
+    <!-- ============================================================== -->
+    <div id="tab-entidade" class="tab-content active">
+
+      <!-- Barra de Impressão da Aba -->
+      <div class="tab-toolbar no-print">
+        <div class="tab-toolbar-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          1. Cadastro Geral da Entidade (CNEAS)
+        </div>
+        <div class="tab-toolbar-actions">
+          <button type="button" class="btn btn-primary btn-sm" onclick="printTabMode('current')" title="Imprimir / Salvar em PDF apenas este cadastro">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Imprimir Esta Aba (PDF)
+          </button>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2 class="section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7v14M21 7v14M6 11h2M6 15h2M10 11h2M10 15h2M14 11h2M14 15h2M18 11h2M18 15h2M9 3h6v4H9z"/></svg>
+          Identificação da Entidade
+        </h2>
+        
+        <div class="form-grid">
+          <div class="form-group col-4">
+            <label>CNPJ <span class="req">*</span></label>
+            <input type="text" name="entidade_cnpj" id="entidade_cnpj" placeholder="00.000.000/0000-00" oninput="maskCNPJ(this)" onchange="syncEntityFields()">
+          </div>
+
+          <div class="form-group col-2">
+            <label>Tipo</label>
+            <select name="entidade_tipo">
+              <option value="Matriz">Matriz</option>
+              <option value="Filial">Filial</option>
+            </select>
+          </div>
+
+          <div class="form-group col-3">
+            <label>Data de Abertura <span class="req">*</span></label>
+            <input type="date" name="entidade_data_abertura">
+          </div>
+
+          <div class="form-group col-3">
+            <label>Data de Fundação</label>
+            <input type="date" name="entidade_data_fundacao">
+          </div>
+
+          <div class="form-group col-6">
+            <label>Nome Empresarial (Razão Social) <span class="req">*</span></label>
+            <input type="text" name="entidade_razao_social" id="entidade_razao_social" onchange="syncEntityFields()">
+          </div>
+
+          <div class="form-group col-6">
+            <label>Nome Fantasia <span class="req">*</span></label>
+            <input type="text" name="entidade_nome_fantasia" id="entidade_nome_fantasia" onchange="syncEntityFields()">
+          </div>
+
+          <div class="form-group col-6">
+            <label>Logradouro <span class="req">*</span></label>
+            <input type="text" name="entidade_logradouro" placeholder="Avenida, Rua, Praça...">
+          </div>
+
+          <div class="form-group col-2">
+            <label>Número <span class="req">*</span></label>
+            <input type="text" name="entidade_numero">
+          </div>
+
+          <div class="form-group col-4">
+            <label>Complemento</label>
+            <input type="text" name="entidade_complemento" placeholder="Caixa Postal, Bloco, Sala...">
+          </div>
+
+          <div class="form-group col-3">
+            <label>Bairro <span class="req">*</span></label>
+            <input type="text" name="entidade_bairro">
+          </div>
+
+          <div class="form-group col-3">
+            <label>CEP <span class="req">*</span></label>
+            <input type="text" name="entidade_cep" placeholder="00000-000" oninput="maskCEP(this)">
+          </div>
+
+          <div class="form-group col-2">
+            <label>UF <span class="req">*</span></label>
+            <select name="entidade_uf" id="entidade_uf" onchange="syncEntityFields()">
+              <option value="">Selecione</option>
+              <option value="SP">SP</option><option value="AC">AC</option><option value="AL">AL</option>
+              <option value="AP">AP</option><option value="AM">AM</option><option value="BA">BA</option>
+              <option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option>
+              <option value="GO">GO</option><option value="MA">MA</option><option value="MT">MT</option>
+              <option value="MS">MS</option><option value="MG">MG</option><option value="PA">PA</option>
+              <option value="PB">PB</option><option value="PR">PR</option><option value="PE">PE</option>
+              <option value="PI">PI</option><option value="RJ">RJ</option><option value="RN">RN</option>
+              <option value="RS">RS</option><option value="RO">RO</option><option value="RR">RR</option>
+              <option value="SC">SC</option><option value="SE">SE</option><option value="TO">TO</option>
+            </select>
+          </div>
+
+          <div class="form-group col-4">
+            <label>Município <span class="req">*</span></label>
+            <input type="text" name="entidade_municipio" id="entidade_municipio" onchange="syncEntityFields()">
+          </div>
+
+          <div class="form-group col-3">
+            <label>Código IBGE <span class="req">*</span></label>
+            <input type="text" name="entidade_ibge">
+          </div>
+
+          <div class="form-group col-3">
+            <label>Telefone <span class="req">*</span></label>
+            <input type="text" name="entidade_telefone" placeholder="(00) 0000-0000" oninput="maskPhone(this)">
+          </div>
+
+          <div class="form-group col-3">
+            <label>Fax</label>
+            <input type="text" name="entidade_fax" placeholder="(00) 0000-0000" oninput="maskPhone(this)">
+          </div>
+
+          <div class="form-group col-3">
+            <label>E-mail <span class="req">*</span></label>
+            <input type="email" name="entidade_email" placeholder="convenios@entidade.org.br">
+          </div>
+
+          <div class="form-group col-6">
+            <label>Página da Internet (Site / Redes)</label>
+            <input type="text" name="entidade_site" placeholder="https://...">
+          </div>
+
+          <div class="form-group col-6">
+            <label>D/PO da Matriz</label>
+            <input type="text" name="entidade_dpo">
+          </div>
+
+          <div class="form-group col-12">
+            <label>Código e Descrição da Atividade Econômica Principal (CNAE) <span class="req">*</span></label>
+            <input type="text" name="entidade_cnae_principal" placeholder="Ex: 94.30-8-00 - Atividades de associações de defesa de direitos sociais">
+          </div>
+
+          <div class="form-group col-12">
+            <label>Código e Descrição das Atividades Econômicas Secundárias (CNAE)</label>
+            <input type="text" name="entidade_cnae_secundaria" placeholder="Ex: 94.99-5-00 - Atividades de organizações associativas ligadas à cultura e à arte">
+          </div>
+        </div>
+      </div>
+
+      <!-- Dados do Presidente -->
+      <div class="form-card">
+        <h2 class="section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Dados do Presidente / Representante Legal
+        </h2>
+
+        <div class="form-grid">
+          <div class="form-group col-6">
+            <label>Nome Completo <span class="req">*</span></label>
+            <input type="text" name="pres_nome">
+          </div>
+
+          <div class="form-group col-3">
+            <label>CPF <span class="req">*</span></label>
+            <input type="text" name="pres_cpf" placeholder="000.000.000-00" oninput="maskCPF(this)">
+          </div>
+
+          <div class="form-group col-3">
+            <label>Data de Nascimento <span class="req">*</span></label>
+            <input type="date" name="pres_nascimento">
+          </div>
+
+          <div class="form-group col-4">
+            <label>Número do RG <span class="req">*</span></label>
+            <input type="text" name="pres_rg">
+          </div>
+
+          <div class="form-group col-2">
+            <label>Órgão Expedidor / UF</label>
+            <input type="text" name="pres_rg_orgao" placeholder="SSP/SP">
+          </div>
+
+          <div class="form-group col-3">
+            <label>Mandato Diretoria (De)</label>
+            <input type="date" name="pres_mandato_inicio">
+          </div>
+
+          <div class="form-group col-3">
+            <label>Mandato Diretoria (Até)</label>
+            <input type="date" name="pres_mandato_fim">
+          </div>
+
+          <div class="form-group col-6">
+            <label>E-mail</label>
+            <input type="email" name="pres_email">
+          </div>
+
+          <div class="form-group col-6">
+            <label>Telefone</label>
+            <input type="text" name="pres_telefone" placeholder="(00) 00000-0000" oninput="maskPhone(this)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Inscrições em Conselhos -->
+      <div class="form-card">
+        <h2 class="section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Dados da Inscrição em Conselhos
+        </h2>
+
+        <div class="question-block">
+          <p class="question-title">Entidade possui Inscrição ou programas em outros Conselhos?</p>
+          <div class="checkbox-group">
+            <label class="option-label">
+              <input type="checkbox" name="conselho_cmdca" value="Sim">
+              Conselho Municipal dos Direitos da Criança e do Adolescente (CMDCA)
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="conselho_cmdi" value="Sim">
+              Conselho Municipal dos Direitos da Pessoa Idosa (CMDI)
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="conselho_cmas" value="Sim">
+              Conselho Municipal de Assistência Social (CMAS)
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="conselho_outros" value="Sim">
+              Outros Conselhos Setoriais de Direitos
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dados Financeiros -->
+      <div class="form-card">
+        <h2 class="section-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Dados Financeiros
+        </h2>
+
+        <div class="form-grid">
+          <div class="form-group col-4">
+            <label>Valor da Receita Total da Entidade</label>
+            <input type="text" name="fin_receita_total" placeholder="R$ 0,00" oninput="maskMoney(this)">
+          </div>
+
+          <div class="form-group col-8">
+            <label>Receita Principal da Entidade</label>
+            <select name="fin_receita_principal">
+              <option value="">Selecione...</option>
+              <option value="Recursos de subvenções, convênios e parcerias com órgãos públicos">Recursos de subvenções, convênios e parcerias com órgãos públicos</option>
+              <option value="Recursos de doações eventuais de pessoa física">Recursos de doações eventuais de pessoa física</option>
+              <option value="Recursos de doações e parcerias com empresas e entidades privadas">Recursos de doações e parcerias com empresas e entidades privadas</option>
+              <option value="Eventos, bazares e venda de produtos / mobilizações">Eventos, bazares e venda de produtos / mobilizações</option>
+              <option value="Mensalidades de associados">Mensalidades de associados</option>
+              <option value="Outros">Outros</option>
+            </select>
+          </div>
+
+          <div class="form-group col-6">
+            <label>Segunda Fonte de Financiamento</label>
+            <select name="fin_receita_secundaria">
+              <option value="">Selecione...</option>
+              <option value="Recursos de doações eventuais de pessoa física">Recursos de doações eventuais de pessoa física</option>
+              <option value="Recursos de subvenções, convênios e parcerias com órgãos públicos">Recursos de subvenções, convênios e parcerias com órgãos públicos</option>
+              <option value="Recursos de doações e parcerias com empresas e entidades privadas">Recursos de doações e parcerias com empresas e entidades privadas</option>
+              <option value="Eventos, bazares e venda de produtos / mobilizações">Eventos, bazares e venda de produtos / mobilizações</option>
+              <option value="Mensalidades de associados">Mensalidades de associados</option>
+              <option value="Outros">Outros</option>
+            </select>
+          </div>
+
+          <div class="form-group col-6">
+            <label>Terceira Fonte de Financiamento</label>
+            <select name="fin_receita_terciaria">
+              <option value="">Selecione...</option>
+              <option value="Recursos de doações e parcerias com empresas e entidades privadas">Recursos de doações e parcerias com empresas e entidades privadas</option>
+              <option value="Recursos de doações eventuais de pessoa física">Recursos de doações eventuais de pessoa física</option>
+              <option value="Recursos de subvenções, convênios e parcerias com órgãos públicos">Recursos de subvenções, convênios e parcerias com órgãos públicos</option>
+              <option value="Eventos, bazares e venda de produtos / mobilizações">Eventos, bazares e venda de produtos / mobilizações</option>
+              <option value="Outros">Outros</option>
+            </select>
+          </div>
+
+          <div class="form-group col-12">
+            <label>Observações Financeiras</label>
+            <textarea name="fin_observacoes" placeholder="Observações adicionais sobre finanças, convênios e sustentabilidade..."></textarea>
+          </div>
+        </div>
+
+        <!-- Assinatura do Representante da Entidade -->
+        <div class="signature-section">
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <strong style="font-size: 0.92rem;">Representante Legal da Entidade</strong><br>
+            <span style="font-size: 0.8rem; color: #555;">Nome legível e Assinatura do Presidente / Diretor</span>
+            <div class="delivery-notice">📌 Imprimir, assinar e entregar na Secretaria de Assistência Social</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- ABA 2: DIAGNÓSTICO E ARTICULAÇÃO DA REDE (COMUM SEÇÃO II)     -->
+    <!-- ============================================================== -->
+    <div id="tab-diagnostico" class="tab-content">
+
+      <!-- Barra de Impressão da Aba -->
+      <div class="tab-toolbar no-print">
+        <div class="tab-toolbar-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          2. Diagnóstico & Articulação Territorial
+        </div>
+        <div class="tab-toolbar-actions">
+          <button type="button" class="btn btn-primary btn-sm" onclick="printTabMode('current')" title="Imprimir / Salvar em PDF apenas esta aba">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Imprimir Esta Aba (PDF)
+          </button>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2 class="section-title">Informações Sobre a Entidade: Diagnóstico & Articulação Territorial</h2>
+        <div class="section-subinfo">
+          Este bloco compõe as páginas iniciais de todas as Seções II dos Instrumentais CNEAS. Preencha os dados do diagnóstico socioterritorial e o mapeamento de articulações com a rede local.
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">1.0 - A entidade possui diagnóstico do seu território de abrangência?</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="diag_q1_0" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="diag_q1_0" value="Não"> Não</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">1.1 - Qual(is) informação(ões) é(são) descrita(s) neste documento?</p>
+          <div class="checkbox-group">
+            <label class="option-label"><input type="checkbox" name="diag_q1_1" value="Quantidade de famílias no território"> Quantidade de famílias no território</label>
+            <label class="option-label"><input type="checkbox" name="diag_q1_1" value="Quantidade de famílias vulneráveis"> Quantidade de famílias vulneráveis</label>
+            <label class="option-label"><input type="checkbox" name="diag_q1_1" value="Perfil etário da população"> Perfil etário da população</label>
+            <label class="option-label"><input type="checkbox" name="diag_q1_1" value="Perfil socioeconômica da população"> Perfil socioeconômico da população</label>
+            <label class="option-label"><input type="checkbox" name="diag_q1_1" value="Mapeamento das unidades socioassistenciais públicas"> Mapeamento das unidades de atendimento socioassistencial - públicas</label>
+            <label class="option-label"><input type="checkbox" name="diag_q1_1" value="Mapeamento das unidades socioassistenciais privadas"> Mapeamento das unidades de atendimento socioassistencial - privadas</label>
+            <label class="option-label"><input type="checkbox" name="diag_q1_1" value="Mapeamento de unidades de outras políticas públicas"> Mapeamento de unidades de outras políticas públicas</label>
+            <label class="option-label"><input type="checkbox" name="diag_q1_1" value="Associações comunitárias"> Associações comunitárias (associações de bairros, cooperativa de artesãos, entidades beneficentes, entre outras)</label>
+            <label class="option-label"><input type="checkbox" name="diag_q1_1" value="Lideranças comunitárias"> Lideranças comunitárias</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">2.0 - A entidade dispõe de mecanismos de comunicação/informação/reclamação dos usuários e da população em geral no acompanhamento dos serviços prestados?</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="diag_q2_0" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="diag_q2_0" value="Não"> Não</label>
+          </div>
+          <div class="sub-field">
+            <p style="font-weight: 600; font-size: 0.85rem; margin-bottom: 6px;">Informe qual(is):</p>
+            <div class="checkbox-group">
+              <label class="option-label"><input type="checkbox" name="diag_q2_mecanismos" value="Comunicação escrita"> Comunicação escrita (jornais, informativos, comunicados entre outros)</label>
+              <label class="option-label"><input type="checkbox" name="diag_q2_mecanismos" value="Mídia eletrônica"> Mídia eletrônica</label>
+              <label class="option-label"><input type="checkbox" name="diag_q2_mecanismos" value="Atividades presenciais"> Atividades presenciais com os usuários dos serviços (com encontros, reuniões, entre outros)</label>
+              <label class="option-label"><input type="checkbox" name="diag_q2_mecanismos" value="Prestação de contas"> Prestação de contas (financeira e política) por meio de Audiências Públicas ou qualquer outra forma</label>
+              <label class="option-label"><input type="checkbox" name="diag_q2_mecanismos" value="Outro"> Outro</label>
+            </div>
+            <input type="text" name="diag_q2_outro" placeholder="Especifique outros mecanismos..." style="margin-top: 6px;">
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">3.0 - Há compatibilidade dos serviços às normas relativas a serviços socioassistenciais na modalidade (PNAS/2004; NOB/SUAS-2012; Resolução CNAS 109/09)?</p>
+          <div class="radio-group">
+            <label class="option-label"><input type="radio" name="diag_q3_0" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="diag_q3_0" value="Não"> Não</label>
+            <label class="option-label"><input type="radio" name="diag_q3_0" value="Alguns serviços em processo de reordenamento"> Alguns serviços em processo de reordenamento</label>
+          </div>
+          <input type="text" name="diag_q3_0_esp" placeholder="Especifique..." style="margin-top: 8px;">
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">3.1 - Há compatibilidade dos serviços com regulamentações específicas da criança e do adolescente, de pessoas com deficiência, idosos e mulheres?</p>
+          <div class="radio-group">
+            <label class="option-label"><input type="radio" name="diag_q3_1" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="diag_q3_1" value="Não"> Não</label>
+            <label class="option-label"><input type="radio" name="diag_q3_1" value="Alguns serviços em processo de reordenamento"> Alguns serviços em processo de reordenamento</label>
+          </div>
+          <input type="text" name="diag_q3_1_esp" placeholder="Especifique..." style="margin-top: 8px;">
+        </div>
+
+        <!-- Matriz de Articulação 4.0 -->
+        <div class="question-block">
+          <p class="question-title">4.0 - Indique as ações de articulação desta entidade com os seguintes serviços, programas ou instituições existentes no território:</p>
+          <div class="table-container">
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th>Serviços, programas, órgãos ou instituições com os quais mantém articulação</th>
+                  <th>Possui dados de localização</th>
+                  <th>Recebe usuários encaminhados</th>
+                  <th>Encaminha usuários</th>
+                  <th>Acompanha encaminhamentos</th>
+                  <th>Realiza reuniões periódicas</th>
+                  <th>Troca informações</th>
+                  <th>Realiza estudos de caso de conjunto</th>
+                  <th>Desenvolve atividade em parceria</th>
+                  <th>Não tem nenhuma articulação</th>
+                  <th>Serviço ou instituição não existente</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Centro de Referência de Assistência Social - CRAS</td><td><input type="checkbox" name="art_cras_1"></td><td><input type="checkbox" name="art_cras_2"></td><td><input type="checkbox" name="art_cras_3"></td><td><input type="checkbox" name="art_cras_4"></td><td><input type="checkbox" name="art_cras_5"></td><td><input type="checkbox" name="art_cras_6"></td><td><input type="checkbox" name="art_cras_7"></td><td><input type="checkbox" name="art_cras_8"></td><td><input type="checkbox" name="art_cras_9"></td><td><input type="checkbox" name="art_cras_10"></td></tr>
+                <tr><td>Outras Unidades Públicas da Rede de PSB</td><td><input type="checkbox" name="art_psb_pub_1"></td><td><input type="checkbox" name="art_psb_pub_2"></td><td><input type="checkbox" name="art_psb_pub_3"></td><td><input type="checkbox" name="art_psb_pub_4"></td><td><input type="checkbox" name="art_psb_pub_5"></td><td><input type="checkbox" name="art_psb_pub_6"></td><td><input type="checkbox" name="art_psb_pub_7"></td><td><input type="checkbox" name="art_psb_pub_8"></td><td><input type="checkbox" name="art_psb_pub_9"></td><td><input type="checkbox" name="art_psb_pub_10"></td></tr>
+                <tr><td>Unidades Conveniadas da Rede de PSB</td><td><input type="checkbox" name="art_psb_conv_1"></td><td><input type="checkbox" name="art_psb_conv_2"></td><td><input type="checkbox" name="art_psb_conv_3"></td><td><input type="checkbox" name="art_psb_conv_4"></td><td><input type="checkbox" name="art_psb_conv_5"></td><td><input type="checkbox" name="art_psb_conv_6"></td><td><input type="checkbox" name="art_psb_conv_7"></td><td><input type="checkbox" name="art_psb_conv_8"></td><td><input type="checkbox" name="art_psb_conv_9"></td><td><input type="checkbox" name="art_psb_conv_10"></td></tr>
+                <tr><td>Centro de Referência Especializado - CREAS</td><td><input type="checkbox" name="art_creas_1"></td><td><input type="checkbox" name="art_creas_2"></td><td><input type="checkbox" name="art_creas_3"></td><td><input type="checkbox" name="art_creas_4"></td><td><input type="checkbox" name="art_creas_5"></td><td><input type="checkbox" name="art_creas_6"></td><td><input type="checkbox" name="art_creas_7"></td><td><input type="checkbox" name="art_creas_8"></td><td><input type="checkbox" name="art_creas_9"></td><td><input type="checkbox" name="art_creas_10"></td></tr>
+                <tr><td>Outras Unidades da Rede de PSE</td><td><input type="checkbox" name="art_pse_1"></td><td><input type="checkbox" name="art_pse_2"></td><td><input type="checkbox" name="art_pse_3"></td><td><input type="checkbox" name="art_pse_4"></td><td><input type="checkbox" name="art_pse_5"></td><td><input type="checkbox" name="art_pse_6"></td><td><input type="checkbox" name="art_pse_7"></td><td><input type="checkbox" name="art_pse_8"></td><td><input type="checkbox" name="art_pse_9"></td><td><input type="checkbox" name="art_pse_10"></td></tr>
+                <tr><td>Serviços de Saúde</td><td><input type="checkbox" name="art_saude_1"></td><td><input type="checkbox" name="art_saude_2"></td><td><input type="checkbox" name="art_saude_3"></td><td><input type="checkbox" name="art_saude_4"></td><td><input type="checkbox" name="art_saude_5"></td><td><input type="checkbox" name="art_saude_6"></td><td><input type="checkbox" name="art_saude_7"></td><td><input type="checkbox" name="art_saude_8"></td><td><input type="checkbox" name="art_saude_9"></td><td><input type="checkbox" name="art_saude_10"></td></tr>
+                <tr><td>Serviços de Educação</td><td><input type="checkbox" name="art_edu_1"></td><td><input type="checkbox" name="art_edu_2"></td><td><input type="checkbox" name="art_edu_3"></td><td><input type="checkbox" name="art_edu_4"></td><td><input type="checkbox" name="art_edu_5"></td><td><input type="checkbox" name="art_edu_6"></td><td><input type="checkbox" name="art_edu_7"></td><td><input type="checkbox" name="art_edu_8"></td><td><input type="checkbox" name="art_edu_9"></td><td><input type="checkbox" name="art_edu_10"></td></tr>
+                <tr><td>Programas ou Projetos</td><td><input type="checkbox" name="art_prog_1"></td><td><input type="checkbox" name="art_prog_2"></td><td><input type="checkbox" name="art_prog_3"></td><td><input type="checkbox" name="art_prog_4"></td><td><input type="checkbox" name="art_prog_5"></td><td><input type="checkbox" name="art_prog_6"></td><td><input type="checkbox" name="art_prog_7"></td><td><input type="checkbox" name="art_prog_8"></td><td><input type="checkbox" name="art_prog_9"></td><td><input type="checkbox" name="art_prog_10"></td></tr>
+                <tr><td>Sistema de Justiça</td><td><input type="checkbox" name="art_just_1"></td><td><input type="checkbox" name="art_just_2"></td><td><input type="checkbox" name="art_just_3"></td><td><input type="checkbox" name="art_just_4"></td><td><input type="checkbox" name="art_just_5"></td><td><input type="checkbox" name="art_just_6"></td><td><input type="checkbox" name="art_just_7"></td><td><input type="checkbox" name="art_just_8"></td><td><input type="checkbox" name="art_just_9"></td><td><input type="checkbox" name="art_just_10"></td></tr>
+                <tr><td>Conselhos de Políticas Públicas e Defesa de Direitos</td><td><input type="checkbox" name="art_cons_1"></td><td><input type="checkbox" name="art_cons_2"></td><td><input type="checkbox" name="art_cons_3"></td><td><input type="checkbox" name="art_cons_4"></td><td><input type="checkbox" name="art_cons_5"></td><td><input type="checkbox" name="art_cons_6"></td><td><input type="checkbox" name="art_cons_7"></td><td><input type="checkbox" name="art_cons_8"></td><td><input type="checkbox" name="art_cons_9"></td><td><input type="checkbox" name="art_cons_10"></td></tr>
+                <tr><td>Demais Órgãos/Serviços</td><td><input type="checkbox" name="art_outros_1"></td><td><input type="checkbox" name="art_outros_2"></td><td><input type="checkbox" name="art_outros_3"></td><td><input type="checkbox" name="art_outros_4"></td><td><input type="checkbox" name="art_outros_5"></td><td><input type="checkbox" name="art_outros_6"></td><td><input type="checkbox" name="art_outros_7"></td><td><input type="checkbox" name="art_outros_8"></td><td><input type="checkbox" name="art_outros_9"></td><td><input type="checkbox" name="art_outros_10"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Assinatura do Representante da Entidade -->
+        <div class="signature-section">
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <strong style="font-size: 0.92rem;">Representante Legal da Entidade</strong><br>
+            <span style="font-size: 0.8rem; color: #555;">Nome legível e Assinatura do Presidente / Diretor</span>
+            <div class="delivery-notice">📌 Imprimir, assinar e entregar na Secretaria de Assistência Social</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- ABA 3: SEÇÃO II - BENEFÍCIOS ASSISTENCIAIS                     -->
+    <!-- ============================================================== -->
+    <div id="tab-beneficios" class="tab-content">
+
+      <!-- Barra de Impressão da Aba -->
+      <div class="tab-toolbar no-print">
+        <div class="tab-toolbar-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          3. Seção II: Benefícios Assistenciais
+        </div>
+        <div class="tab-toolbar-actions">
+          <button type="button" class="btn btn-primary btn-sm" onclick="printTabMode('current')" title="Imprimir / Salvar em PDF apenas esta aba">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Imprimir Esta Aba (PDF)
+          </button>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2 class="section-title">Seção II – BENEFÍCIOS ASSISTENCIAIS</h2>
+        <div class="section-subinfo">
+          Instrumental de Visita Técnica conforme art. 22 da Lei nº 8.742/1993 alterada pela Lei nº 12.435/2011.
+        </div>
+
+        <h3 class="section-title" style="font-size: 0.95rem;">DADOS DA ENTIDADE E DA OFERTA</h3>
+        <div class="form-grid">
+          <div class="form-group col-4"><label>CNPJ</label><input type="text" class="sync-cnpj" name="ben_cnpj"></div>
+          <div class="form-group col-2"><label>UF</label><input type="text" class="sync-uf" name="ben_uf"></div>
+          <div class="form-group col-6"><label>Município</label><input type="text" class="sync-mun" name="ben_municipio"></div>
+          <div class="form-group col-12"><label>Nome da Oferta <span class="req">*</span></label><input type="text" name="ben_nome_oferta" placeholder="Identificação da oferta de Benefício Eventual"></div>
+          <div class="form-group col-6"><label>Nome Empresarial</label><input type="text" class="sync-razao" name="ben_nome_empresarial"></div>
+          <div class="form-group col-6"><label>Nome da Entidade</label><input type="text" class="sync-fantasia" name="ben_nome_entidade"></div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3 class="section-title">Benefícios Socioassistenciais Concedidos</h3>
+
+        <div class="question-block">
+          <p class="question-title">1.1 - Assinale o(s) benefício(s) concedido(s) em virtude de:</p>
+          <div class="checkbox-group">
+            <label class="option-label"><input type="checkbox" name="ben_virtude" value="Nascimento"> Nascimento</label>
+            <label class="option-label"><input type="checkbox" name="ben_virtude" value="Morte"> Morte</label>
+            <label class="option-label"><input type="checkbox" name="ben_virtude" value="Vulnerabilidade temporária"> Vulnerabilidade temporária para enfrentamento de situações de riscos, perdas e danos à integridade da pessoa e/ou de sua família</label>
+            <label class="option-label"><input type="checkbox" name="ben_virtude" value="Calamidade Pública"> Calamidade Pública para o atendimento das vítimas de modo a garantir sobrevivência e reconstrução da autonomia destas</label>
+            <label class="option-label"><input type="checkbox" name="ben_virtude" value="Outro"> Outro</label>
+          </div>
+          <input type="text" name="ben_virtude_outro" placeholder="Especifique outro..." style="margin-top: 8px;">
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">1.2 - Indique a qual(is) tipo(s) de oferta o benefício está relacionado:</p>
+          <div class="checkbox-group">
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="SCFV"> Serviço de Convivência e Fortalecimento de Vínculos</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="PSB Domicílio"> Serviço de Proteção Social Básica no Domicílio para Pessoa com Deficiência, Idosas e suas Famílias</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="Abordagem Social"> Serviço Especializado em Abordagem Social</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="LA/PSC"> Serviço de Proteção Social a Adolescentes em Cumprimento de Medida Socioeducativa de Liberdade Assistida (LA) e/ou PSC</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="PSE PCD/Idosas"> Serviço de Proteção Social Especial para Pessoas com Deficiência, Idosas e suas Famílias</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="Pop Rua"> Serviço Especializado para Pessoas em Situação de Rua</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="Acolhimento Institucional"> Serviço de Acolhimento Institucional (Abrigo institucional, Casa lar, Casa de passagem, Residência inclusiva)</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="República"> Serviço de Acolhimento em República</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="Família Acolhedora"> Serviço de Acolhimento em Família Acolhedora</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="Calamidades"> Serviço de Proteção em Situações de Calamidades Públicas e de Emergência</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="Defesa de Direitos"> Ações de Assessoramento, Defesa e Garantia de Direitos</label>
+            <label class="option-label"><input type="checkbox" name="ben_tipo_oferta" value="Outros"> Outros Programas e Projetos</label>
+          </div>
+          <input type="text" name="ben_tipo_oferta_outro" placeholder="Especifique outros programas..." style="margin-top: 8px;">
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">1.3 - O benefício é ofertado de forma gratuita aos usuários?</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="ben_gratuito" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="ben_gratuito" value="Não"> Não</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">2.0 - A oferta conta com a mesma infraestrutura e RH disponibilizados na(s) oferta(s) acima elencada(s)?</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="ben_mesma_infra" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="ben_mesma_infra" value="Não"> Não</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">3.3 - A oferta de benefícios eventuais prevê condições de acessibilidade?</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="ben_acessibilidade" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="ben_acessibilidade" value="Não"> Não</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">4.0 - Recursos Humanos: Profissionais disponibilizados para a oferta</p>
+          <div id="ben_rh_list"></div>
+          <button type="button" class="btn btn-secondary btn-sm no-print" onclick="addRHRow('ben_rh_list')" style="margin-top: 8px;">+ Adicionar Profissional</button>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">5.0 - Periodicidade da oferta do benefício eventual:</p>
+          <div class="radio-group">
+            <label class="option-label"><input type="radio" name="ben_freq" value="Sem frequência definida"> Sem frequência definida</label>
+            <label class="option-label"><input type="radio" name="ben_freq" value="Apenas 1 vez por semana (dias úteis)"> Apenas 1 vez por semana (dias úteis)</label>
+            <label class="option-label"><input type="radio" name="ben_freq" value="Até 2 vezes por semana (dias úteis)"> Até 2 vezes por semana (dias úteis)</label>
+            <label class="option-label"><input type="radio" name="ben_freq" value="Até três vezes por semana (dias úteis)"> Até três vezes por semana (dias úteis)</label>
+            <label class="option-label"><input type="radio" name="ben_freq" value="5 vezes por semana (dias úteis)"> 5 vezes por semana (dias úteis)</label>
+            <label class="option-label"><input type="radio" name="ben_freq" value="Todos os dias da semana, inclusive finais de semana"> Todos os dias da semana, inclusive finais de semana</label>
+            <label class="option-label"><input type="radio" name="ben_freq" value="Todos os dias da semana, inclusive finais de semana - ininterrupto"> Todos os dias da semana, inclusive finais de semana - ininterrupto</label>
+          </div>
+        </div>
+
+        <div class="form-grid" style="margin-bottom: 16px;">
+          <div class="form-group col-6">
+            <label>5.1 - Quantidade de atendimentos a usuários que recebem o benefício eventual (média/último mês):</label>
+            <input type="number" name="ben_qtd_atendimentos" placeholder="Quantidade de Pessoas">
+          </div>
+          <div class="form-group col-6">
+            <label>5.2 - Quantidade de beneficiários acompanhados pelos serviços socioassistenciais (média/último mês):</label>
+            <input type="number" name="ben_qtd_acompanhados" placeholder="Quantidade de Pessoas">
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">6.0 - Forma de acesso dos usuários que recebem benefícios eventuais:</p>
+          <div class="checkbox-group">
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="Procura espontânea"> Procura espontânea</label>
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="Busca ativa"> Busca ativa</label>
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="Secretaria Assistência Social"> Encaminhamento da Secretaria de Assistência Social ou congênere</label>
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="CRAS"> Encaminhamento do CRAS</label>
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="CREAS"> Encaminhamento do CREAS</label>
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="Outras entidades"> Encaminhamento de outras entidades de assistência social</label>
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="Demais políticas públicas"> Encaminhamento pelas demais políticas públicas</label>
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="Conselhos de Defesa"> Encaminhamento de Conselhos de Defesa de Direitos</label>
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="Determinação judicial"> Por determinação judicial</label>
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="Calamidade pública"> A partir da ocorrência de emergências e calamidade pública</label>
+            <label class="option-label"><input type="checkbox" name="ben_forma_acesso" value="Equipe plantão"> Mediante a mobilização de equipe de plantão</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">7.0 - Tempo médio de concessão do benefício eventual ofertado:</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="ben_tempo_concessao" value="Uma única vez"> Uma única vez</label>
+            <label class="option-label"><input type="radio" name="ben_tempo_concessao" value="Até 06 meses"> Até 06 meses</label>
+            <label class="option-label"><input type="radio" name="ben_tempo_concessao" value="De 06 meses até 01 ano"> De 06 meses até 01 ano</label>
+            <label class="option-label"><input type="radio" name="ben_tempo_concessao" value="De 01 a 02 anos"> De 01 a 02 anos</label>
+            <label class="option-label"><input type="radio" name="ben_tempo_concessao" value="De 02 a 04 anos"> De 02 a 04 anos</label>
+            <label class="option-label"><input type="radio" name="ben_tempo_concessao" value="Acima de 04 anos"> Acima de 04 anos</label>
+            <label class="option-label"><input type="radio" name="ben_tempo_concessao" value="Sem informação"> Sem informação</label>
+          </div>
+        </div>
+
+        <!-- Assinatura do Representante da Entidade -->
+        <div class="signature-section">
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <strong style="font-size: 0.92rem;">Representante Legal da Entidade</strong><br>
+            <span style="font-size: 0.8rem; color: #555;">Nome legível e Assinatura do Presidente / Diretor</span>
+            <div class="delivery-notice">📌 Imprimir, assinar e entregar na Secretaria de Assistência Social</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- ABA 4: SEÇÃO II - AÇÕES DE ASSESSORAMENTO E DIREITOS           -->
+    <!-- ============================================================== -->
+    <div id="tab-assessoramento" class="tab-content">
+
+      <!-- Barra de Impressão da Aba -->
+      <div class="tab-toolbar no-print">
+        <div class="tab-toolbar-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          4. Seção II: Assessoramento e Defesa de Direitos
+        </div>
+        <div class="tab-toolbar-actions">
+          <button type="button" class="btn btn-primary btn-sm" onclick="printTabMode('current')" title="Imprimir / Salvar em PDF apenas esta aba">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Imprimir Esta Aba (PDF)
+          </button>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2 class="section-title">Seção II – AÇÕES DE ASSESSORAMENTO, DEFESA E GARANTIA DE DIREITOS</h2>
+        <div class="section-subinfo">
+          Instrumental de Visita Técnica conforme Resolução CNAS nº 27/2011.
+        </div>
+
+        <h3 class="section-title" style="font-size: 0.95rem;">DADOS DA ENTIDADE E DA OFERTA</h3>
+        <div class="form-grid">
+          <div class="form-group col-4"><label>CNPJ</label><input type="text" class="sync-cnpj" name="ass_cnpj"></div>
+          <div class="form-group col-2"><label>UF</label><input type="text" class="sync-uf" name="ass_uf"></div>
+          <div class="form-group col-6"><label>Município</label><input type="text" class="sync-mun" name="ass_municipio"></div>
+          <div class="form-group col-12"><label>Nome da Oferta <span class="req">*</span></label><input type="text" name="ass_nome_oferta" placeholder="Identificação da ação de assessoramento/defesa de direitos"></div>
+          <div class="form-group col-6"><label>Nome Empresarial</label><input type="text" class="sync-razao" name="ass_nome_empresarial"></div>
+          <div class="form-group col-6"><label>Nome da Entidade</label><input type="text" class="sync-fantasia" name="ass_nome_entidade"></div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3 class="section-title">1.0 - Ações de Assessoramento e Defesa e Garantia de Direitos (Resolução CNAS nº 27/2011)</h3>
+
+        <!-- Eixos 1 a 8 -->
+        <div class="question-block">
+          <label class="option-label" style="font-weight: 700; color: #0f3d14;">
+            <input type="checkbox" name="ass_eixo1" value="Sim">
+            Assessoramento político, técnico, administrativo e financeiro.
+          </label>
+          <div class="sub-field">
+            <p style="font-weight:600; font-size:0.83rem;">Objetivos Assinalados:</p>
+            <div class="checkbox-group">
+              <label class="option-label"><input type="checkbox" name="ass_eixo1_obj" value="Fortalecer protagonismo"> Fortalecer participação, autonomia e protagonismo de movimentos sociais e organizações de usuários.</label>
+              <label class="option-label"><input type="checkbox" name="ass_eixo1_obj" value="Potencialidades locais"> Identificar potencialidades, mobilizar e organizar grupos e lideranças locais.</label>
+              <label class="option-label"><input type="checkbox" name="ass_eixo1_obj" value="Participação democrática"> Subsidiar a intervenção nas instâncias e espaços de participação democrática.</label>
+              <label class="option-label"><input type="checkbox" name="ass_eixo1_obj" value="Qualificar planejamento"> Fortalecer e qualificar as entidades quanto a planejamento, captação de recursos e gestão de ofertas.</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <label class="option-label" style="font-weight: 700; color: #0f3d14;">
+            <input type="checkbox" name="ass_eixo2" value="Sim">
+            Sistematização e disseminação de projetos inovadores de inclusão cidadã para enfrentamento da pobreza.
+          </label>
+        </div>
+
+        <div class="question-block">
+          <label class="option-label" style="font-weight: 700; color: #0f3d14;">
+            <input type="checkbox" name="ass_eixo3" value="Sim">
+            Estímulo ao desenvolvimento integral sustentável das comunidades, cadeias organizativas e geração de renda.
+          </label>
+        </div>
+
+        <div class="question-block">
+          <label class="option-label" style="font-weight: 700; color: #0f3d14;">
+            <input type="checkbox" name="ass_eixo4" value="Sim">
+            Produção e socialização de estudos e pesquisas sobre direitos de cidadania e assistência social.
+          </label>
+        </div>
+
+        <div class="question-block">
+          <label class="option-label" style="font-weight: 700; color: #0f3d14;">
+            <input type="checkbox" name="ass_eixo5" value="Sim">
+            Promoção da defesa de direitos já estabelecidos através de distintas formas de ação e reivindicação.
+          </label>
+        </div>
+
+        <div class="question-block">
+          <label class="option-label" style="font-weight: 700; color: #0f3d14;">
+            <input type="checkbox" name="ass_eixo6" value="Sim">
+            Reivindicação da construção de novos direitos fundados em novos conhecimentos e padrões reconhecidos.
+          </label>
+        </div>
+
+        <div class="question-block">
+          <label class="option-label" style="font-weight: 700; color: #0f3d14;">
+            <input type="checkbox" name="ass_eixo7" value="Sim">
+            Formação político cidadã de grupos populares, nela incluindo capacitação de conselheiros/as e lideranças populares.
+          </label>
+        </div>
+
+        <div class="question-block">
+          <label class="option-label" style="font-weight: 700; color: #0f3d14;">
+            <input type="checkbox" name="ass_eixo8" value="Sim">
+            Desenvolvimento de ações de monitoramento e controle popular sobre alcance de direitos socioassistenciais e a existência de suas violações.
+          </label>
+        </div>
+
+        <div class="question-block">
+          <label class="option-label" style="font-weight: 700; color: #0f3d14;">
+            <input type="checkbox" name="ass_eixo_outro" value="Sim">
+            Outra ação de assessoramento / defesa de direitos:
+          </label>
+          <div class="sub-field">
+            <input type="text" name="ass_outro_obj" placeholder="Objetivo..." style="margin-bottom:6px;">
+            <input type="text" name="ass_outro_pub" placeholder="Público..." style="margin-bottom:6px;">
+            <input type="text" name="ass_outro_res" placeholder="Resultados/impactos esperados...">
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">2.0 - As ações são ofertadas de forma gratuita aos usuários?</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="ass_gratuito" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="ass_gratuito" value="Não"> Não</label>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group col-6">
+            <label>3.0 - Periodicidade das ações (Frequência):</label>
+            <select name="ass_periodicidade">
+              <option value="">Selecione...</option>
+              <option value="Sem frequência definida">Sem frequência definida</option>
+              <option value="Apenas 1 vez por semana (dias úteis)">Apenas 1 vez por semana (dias úteis)</option>
+              <option value="Até 2 vezes por semana (dias úteis)">Até 2 vezes por semana (dias úteis)</option>
+              <option value="Até 3 vezes por semana (dias úteis)">Até 3 vezes por semana (dias úteis)</option>
+              <option value="5 vezes por semana (dias úteis)">5 vezes por semana (dias úteis)</option>
+              <option value="Todos os dias da semana">Todos os dias da semana</option>
+            </select>
+          </div>
+
+          <div class="form-group col-6">
+            <label>3.1 - Tempo de permanência do usuário nas ações:</label>
+            <select name="ass_tempo_perm">
+              <option value="">Selecione...</option>
+              <option value="Sem frequência definida">Sem frequência definida</option>
+              <option value="Até 2 horas por semana">Até 2 horas por semana</option>
+              <option value="De 2 até 4 horas por semana">De 2 até 4 horas por semana</option>
+              <option value="De 4 até 8 horas por semana">De 4 até 8 horas por semana</option>
+              <option value="De 8 até 12 horas por semana">De 8 até 12 horas por semana</option>
+              <option value="Mais de 12 horas por semana">Mais de 12 horas por semana</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="question-block" style="margin-top: 15px;">
+          <p class="question-title">4.0 - Quantidade de atendimentos (média/último mês):</p>
+          <div class="form-grid">
+            <div class="form-group col-4"><label>Grupos/Famílias: Vagas</label><input type="number" name="ass_vagas_grupos"></div>
+            <div class="form-group col-4"><label>Pessoas por Grupo</label><input type="number" name="ass_pessoas_grupo"></div>
+            <div class="form-group col-4"><label>Qtd. de Grupos</label><input type="number" name="ass_qtd_grupos"></div>
+            <div class="form-group col-6"><label>Indivíduos: Vagas</label><input type="number" name="ass_vagas_ind"></div>
+            <div class="form-group col-6"><label>Indivíduos Atendidos</label><input type="number" name="ass_pessoas_ind"></div>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">8.0 - Condições de acessibilidade:</p>
+          <div class="radio-row" style="margin-bottom: 8px;">
+            <label class="option-label"><input type="radio" name="ass_tem_acess" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="ass_tem_acess" value="Não"> Não</label>
+          </div>
+          <div class="checkbox-group">
+            <label class="option-label"><input type="checkbox" name="ass_acess_item" value="Rampas"> Acesso principal adaptado com rampas</label>
+            <label class="option-label"><input type="checkbox" name="ass_acess_item" value="Rota acessível"> Rota acessível aos principais espaços da unidade</label>
+            <label class="option-label"><input type="checkbox" name="ass_acess_item" value="Piso tátil"> Pisos especiais com relevos para pessoas com deficiências visuais</label>
+            <label class="option-label"><input type="checkbox" name="ass_acess_item" value="Auditivo"> Recursos de comunicação para pessoas com deficiência auditiva</label>
+            <label class="option-label"><input type="checkbox" name="ass_acess_item" value="Tecnologia Assistiva"> Equipamentos de tecnologia assistiva</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">9.0 - Recursos Humanos do Assessoramento:</p>
+          <div id="ass_rh_list"></div>
+          <button type="button" class="btn btn-secondary btn-sm no-print" onclick="addRHRow('ass_rh_list')" style="margin-top: 8px;">+ Adicionar Profissional</button>
+        </div>
+
+        <!-- Assinatura do Representante da Entidade -->
+        <div class="signature-section">
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <strong style="font-size: 0.92rem;">Representante Legal da Entidade</strong><br>
+            <span style="font-size: 0.8rem; color: #555;">Nome legível e Assinatura do Presidente / Diretor</span>
+            <div class="delivery-notice">📌 Imprimir, assinar e entregar na Secretaria de Assistência Social</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- ABA 5: SEÇÃO II - PROGRAMAS E PROJETOS                         -->
+    <!-- ============================================================== -->
+    <div id="tab-programas" class="tab-content">
+
+      <!-- Barra de Impressão da Aba -->
+      <div class="tab-toolbar no-print">
+        <div class="tab-toolbar-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          5. Seção II: Programas e Projetos
+        </div>
+        <div class="tab-toolbar-actions">
+          <button type="button" class="btn btn-primary btn-sm" onclick="printTabMode('current')" title="Imprimir / Salvar em PDF apenas esta aba">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Imprimir Esta Aba (PDF)
+          </button>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2 class="section-title">Seção II – PROGRAMAS E PROJETOS</h2>
+        <div class="section-subinfo">
+          Instrumental de Visita Técnica para Programas e Projetos Socioassistenciais no CNEAS.
+        </div>
+
+        <h3 class="section-title" style="font-size: 0.95rem;">DADOS DA ENTIDADE E DA OFERTA</h3>
+        <div class="form-grid">
+          <div class="form-group col-4"><label>CNPJ</label><input type="text" class="sync-cnpj" name="prog_cnpj"></div>
+          <div class="form-group col-2"><label>UF</label><input type="text" class="sync-uf" name="prog_uf"></div>
+          <div class="form-group col-6"><label>Município</label><input type="text" class="sync-mun" name="prog_municipio"></div>
+          <div class="form-group col-12"><label>Nome da Oferta (Programa ou Projeto) <span class="req">*</span></label><input type="text" name="prog_nome_oferta" placeholder="Identificação do Programa / Projeto"></div>
+          <div class="form-group col-6"><label>Nome Empresarial</label><input type="text" class="sync-razao" name="prog_nome_empresarial"></div>
+          <div class="form-group col-6"><label>Nome da Entidade</label><input type="text" class="sync-fantasia" name="prog_nome_entidade"></div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3 class="section-title">1.0 - Detalhamento do Programa / Projeto</h3>
+        
+        <div class="form-grid">
+          <div class="form-group col-12">
+            <label>a) Descrição e Objetivos: <span class="req">*</span></label>
+            <textarea name="prog_desc_obj" placeholder="Descreva sucintamente o objetivo geral e metas do projeto..."></textarea>
+          </div>
+
+          <div class="form-group col-12">
+            <label>b) Público Atendido: <span class="req">*</span></label>
+            <textarea name="prog_publico" placeholder="Especifique características do público-alvo e território..."></textarea>
+          </div>
+
+          <div class="form-group col-12">
+            <label>c) Atividades Desenvolvidas: <span class="req">*</span></label>
+            <textarea name="prog_atividades" placeholder="Descreva as atividades executadas no projeto..."></textarea>
+          </div>
+        </div>
+
+        <div class="question-block" style="margin-top: 15px;">
+          <p class="question-title">2.0 - Regulação do referido Programa/Projeto:</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="prog_regulacao" value="Federal"> Federal</label>
+            <label class="option-label"><input type="radio" name="prog_regulacao" value="Estadual"> Estadual</label>
+            <label class="option-label"><input type="radio" name="prog_regulacao" value="Do Distrito Federal"> Do Distrito Federal</label>
+            <label class="option-label"><input type="radio" name="prog_regulacao" value="Municipal"> Municipal</label>
+            <label class="option-label"><input type="radio" name="prog_regulacao" value="Sem Regulamentação"> Sem Regulamentação</label>
+          </div>
+          <input type="text" name="prog_regulacao_esp" placeholder="Especifique a legislação / ato que instituiu..." style="margin-top: 8px;">
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">3.0 - O Programa/Projeto é ofertado de forma gratuita aos usuários?</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="prog_gratuito" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="prog_gratuito" value="Não"> Não</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">4.0 - Recursos Humanos do Programa/Projeto:</p>
+          <div id="prog_rh_list"></div>
+          <button type="button" class="btn btn-secondary btn-sm no-print" onclick="addRHRow('prog_rh_list')" style="margin-top: 8px;">+ Adicionar Profissional</button>
+        </div>
+
+        <!-- Assinatura do Representante da Entidade -->
+        <div class="signature-section">
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <strong style="font-size: 0.92rem;">Representante Legal da Entidade</strong><br>
+            <span style="font-size: 0.8rem; color: #555;">Nome legível e Assinatura do Presidente / Diretor</span>
+            <div class="delivery-notice">📌 Imprimir, assinar e entregar na Secretaria de Assistência Social</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- ABA 6: SEÇÃO II - SERVIÇOS SOCIOASSISTENCIAIS                 -->
+    <!-- ============================================================== -->
+    <div id="tab-servico" class="tab-content">
+
+      <!-- Barra de Impressão da Aba -->
+      <div class="tab-toolbar no-print">
+        <div class="tab-toolbar-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          6. Seção II: Serviços Socioassistenciais
+        </div>
+        <div class="tab-toolbar-actions">
+          <button type="button" class="btn btn-primary btn-sm" onclick="printTabMode('current')" title="Imprimir / Salvar em PDF apenas esta aba">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Imprimir Esta Aba (PDF)
+          </button>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2 class="section-title">Seção II – SERVIÇO SOCIOASSISTENCIAL</h2>
+        <div class="section-subinfo">
+          Instrumental de Visita Técnica conforme Resolução CNAS nº 109/2009 (Tipificação Nacional de Serviços Socioassistenciais).
+        </div>
+
+        <h3 class="section-title" style="font-size: 0.95rem;">DADOS DA ENTIDADE E DA OFERTA</h3>
+        <div class="form-grid">
+          <div class="form-group col-4"><label>CNPJ</label><input type="text" class="sync-cnpj" name="serv_cnpj"></div>
+          <div class="form-group col-2"><label>UF</label><input type="text" class="sync-uf" name="serv_uf"></div>
+          <div class="form-group col-6"><label>Município</label><input type="text" class="sync-mun" name="serv_municipio"></div>
+          <div class="form-group col-12"><label>Nome da Oferta (Serviço) <span class="req">*</span></label><input type="text" name="serv_nome_oferta" placeholder="Ex: SCFV de 06 a 15 anos / Centro Dia para Idosos / etc."></div>
+          <div class="form-group col-6"><label>Nome Empresarial</label><input type="text" class="sync-razao" name="serv_nome_empresarial"></div>
+          <div class="form-group col-6"><label>Nome da Entidade</label><input type="text" class="sync-fantasia" name="serv_nome_entidade"></div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3 class="section-title">Abrangência e Caracterização do Serviço</h3>
+
+        <!-- CRAS e CREAS -->
+        <div class="question-block">
+          <p class="question-title">1.0 - O serviço está localizado na área de abrangência de CRAS?</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="serv_tem_cras" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="serv_tem_cras" value="Não"> Não</label>
+          </div>
+          <div class="sub-field">
+            <div class="form-grid">
+              <div class="form-group col-2"><label>UF:</label><input type="text" name="serv_cras_uf"></div>
+              <div class="form-group col-4"><label>Município:</label><input type="text" name="serv_cras_mun"></div>
+              <div class="form-group col-6"><label>Unidade(s) CRAS:</label><input type="text" name="serv_cras_nome"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">1.1 - O serviço está localizado na área de abrangência de CREAS?</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="serv_tem_creas" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="serv_tem_creas" value="Não"> Não</label>
+          </div>
+          <div class="sub-field">
+            <div class="form-grid">
+              <div class="form-group col-2"><label>UF:</label><input type="text" name="serv_creas_uf"></div>
+              <div class="form-group col-4"><label>Município:</label><input type="text" name="serv_creas_mun"></div>
+              <div class="form-group col-6"><label>Unidade(s) CREAS:</label><input type="text" name="serv_creas_nome"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">2.0 - O serviço é ofertado de forma gratuita aos usuários?</p>
+          <div class="radio-row">
+            <label class="option-label"><input type="radio" name="serv_gratuito" value="Sim"> Sim</label>
+            <label class="option-label"><input type="radio" name="serv_gratuito" value="Não"> Não</label>
+          </div>
+        </div>
+
+        <!-- 3.0 Público Alvo -->
+        <div class="question-block">
+          <p class="question-title">3.1 - Público Alvo:</p>
+          <div class="checkbox-group">
+            <label class="option-label"><input type="checkbox" name="serv_pub" value="Crianças"> Crianças</label>
+            <label class="option-label"><input type="checkbox" name="serv_pub" value="Adolescentes"> Adolescentes</label>
+            <label class="option-label"><input type="checkbox" name="serv_pub" value="Jovens"> Jovens</label>
+            <label class="option-label"><input type="checkbox" name="serv_pub" value="Adultos"> Adultos</label>
+            <label class="option-label"><input type="checkbox" name="serv_pub" value="Idosos"> Idosos</label>
+            <label class="option-label"><input type="checkbox" name="serv_pub" value="Famílias"> Famílias (grupo familiar ou indivíduo)</label>
+            <label class="option-label"><input type="checkbox" name="serv_pub" value="Povos tradicionais"> Povos e comunidades tradicionais</label>
+          </div>
+          <input type="text" name="serv_pub_outro" placeholder="Outros públicos..." style="margin-top: 8px;">
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group col-6">
+            <label>3.2 - Faixa Etária:</label>
+            <div class="checkbox-group">
+              <label class="option-label"><input type="checkbox" name="serv_faixa" value="0 a 6 anos"> 0 a 6 anos</label>
+              <label class="option-label"><input type="checkbox" name="serv_faixa" value="6 a 15 anos"> 6 a 15 anos</label>
+              <label class="option-label"><input type="checkbox" name="serv_faixa" value="15 a 17 anos"> 15 a 17 anos</label>
+              <label class="option-label"><input type="checkbox" name="serv_faixa" value="18 a 59 anos"> 18 a 59 anos</label>
+              <label class="option-label"><input type="checkbox" name="serv_faixa" value="60 anos ou mais"> 60 anos ou mais</label>
+            </div>
+          </div>
+          <div class="form-group col-6">
+            <label>3.3 - Território Referência:</label>
+            <div class="checkbox-group">
+              <label class="option-label"><input type="checkbox" name="serv_territorio" value="População urbana"> População urbana</label>
+              <label class="option-label"><input type="checkbox" name="serv_territorio" value="População rural"> População rural</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3.4 Vulnerabilidades -->
+        <div class="question-block" style="margin-top: 15px;">
+          <p class="question-title">3.4 - Vulnerabilidades e/ou Riscos dos Usuários:</p>
+          <div class="checkbox-group" style="max-height: 250px; overflow-y: auto; padding: 6px; border: 1px solid #e2e8f0; border-radius: 4px; background: #fff;">
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="Beneficiários PBF"> Famílias beneficiárias de Programas de Transferência de Renda</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="Condicionalidades PBF"> Dificuldades no cumprimento de condicionalidades do PBF</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="BPC"> Beneficiários do BPC e suas famílias</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="Drogas"> Usuários de substância psicoativa (álcool e outras drogas)</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="Moradias precárias"> Famílias desalojadas em função de moradias precárias ou risco</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="Idosos sem automanutenção"> Idosos sem condições para sua automanutenção</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="PCD sem automanutenção"> Pessoas com deficiência sem condições para sua automanutenção</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="Violações de direitos"> Famílias/indivíduos que vivenciam violações de direitos (violência, abuso, negligência)</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="Afastados família"> Crianças, PCD ou idosos afastados do convívio familiar</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="Medida socioeducativa"> Adolescentes em cumprimento de LA ou PSC ou egressos de internação</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="População em situação de rua"> População em situação de rua</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="Trabalho infantil"> Crianças e adolescentes retirados do trabalho infantil</label>
+            <label class="option-label"><input type="checkbox" name="serv_vuln" value="Vínculos fragilizados"> Pessoas com vínculos familiares fragilizados</label>
+          </div>
+        </div>
+
+        <!-- 4.0 Atividades Desenvolvidas -->
+        <div class="question-block">
+          <p class="question-title">4.0 - Atividades Desenvolvidas no Serviço:</p>
+          <div class="checkbox-group" style="max-height: 220px; overflow-y: auto; padding: 6px; border: 1px solid #e2e8f0; border-radius: 4px; background: #fff;">
+            <label class="option-label"><input type="checkbox" name="serv_ativ" value="Busca ativa"> Busca ativa</label>
+            <label class="option-label"><input type="checkbox" name="serv_ativ" value="Acolhida individual"> Acolhida individual</label>
+            <label class="option-label"><input type="checkbox" name="serv_ativ" value="Acolhida em grupo"> Acolhida em grupo</label>
+            <label class="option-label"><input type="checkbox" name="serv_ativ" value="Estudo social"> Estudo social</label>
+            <label class="option-label"><input type="checkbox" name="serv_ativ" value="Visita domiciliar"> Visita domiciliar</label>
+            <label class="option-label"><input type="checkbox" name="serv_ativ" value="Orientações individuais e grupais"> Orientações individuais e grupais</label>
+            <label class="option-label"><input type="checkbox" name="serv_ativ" value="Atividades grupais de convívio"> Atividades grupais de convívio</label>
+            <label class="option-label"><input type="checkbox" name="serv_ativ" value="Socioeducativas DH"> Atividades socioeducativas sobre direitos e diversidade</label>
+            <label class="option-label"><input type="checkbox" name="serv_ativ" value="Encaminhamentos socioassistenciais"> Encaminhamentos para a rede socioassistencial e políticas setoriais</label>
+            <label class="option-label"><input type="checkbox" name="serv_ativ" value="Articulação garantias"> Articulação com o Sistema de Garantia de Direitos</label>
+          </div>
+        </div>
+
+        <!-- 5.0 Dados Operacionais -->
+        <div class="form-grid">
+          <div class="form-group col-6">
+            <label>5.1 - Frequência das Atividades:</label>
+            <select name="serv_freq">
+              <option value="">Selecione...</option>
+              <option value="Sem frequência definida">Sem frequência definida</option>
+              <option value="Apenas 1 vez por semana (dias úteis)">Apenas 1 vez por semana (dias úteis)</option>
+              <option value="Até 2 vezes por semana (dias úteis)">Até 2 vezes por semana (dias úteis)</option>
+              <option value="Até 3 vezes por semana (dias úteis)">Até 3 vezes por semana (dias úteis)</option>
+              <option value="5 vezes por semana (dias úteis)">5 vezes por semana (dias úteis)</option>
+              <option value="Todos os dias da semana">Todos os dias da semana</option>
+              <option value="Ininterruptos (24h)">Todos os dias da semana – ininterruptos</option>
+            </select>
+          </div>
+
+          <div class="form-group col-6">
+            <label>5.2 - Permanência do Usuário no Serviço:</label>
+            <select name="serv_perm">
+              <option value="">Selecione...</option>
+              <option value="Sem frequência definida">Sem frequência definida</option>
+              <option value="Até 2 horas por semana">Até 2 horas por semana</option>
+              <option value="De 2 até 4 horas por semana">De 2 até 4 horas por semana</option>
+              <option value="De 4 até 8 horas por semana">De 4 até 8 horas por semana</option>
+              <option value="De 8 até 12 horas por semana">De 8 até 12 horas por semana</option>
+              <option value="Mais de 12 horas por semana">Mais de 12 horas por semana</option>
+              <option value="24 horas – ininterrupto">24 horas – ininterrupto</option>
+            </select>
+          </div>
+
+          <div class="form-group col-6">
+            <label>6.0 - Imóvel do Serviço:</label>
+            <select name="serv_imovel">
+              <option value="Próprio">Próprio</option>
+              <option value="Alugado">Alugado</option>
+              <option value="Cedido">Cedido</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="form-group col-6">
+            <label>8.0 - Custo da Oferta (mês/R$):</label>
+            <input type="text" name="serv_custo_mensal" placeholder="R$ 0,00" oninput="maskMoney(this)">
+          </div>
+        </div>
+
+        <div class="question-block" style="margin-top: 15px;">
+          <p class="question-title">7.3 - Condições de Acessibilidade:</p>
+          <div class="checkbox-group" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+            <label class="option-label"><input type="checkbox" name="serv_acess" value="Rampas"> Rampas no acesso principal</label>
+            <label class="option-label"><input type="checkbox" name="serv_acess" value="Rota acessível"> Rota acessível interna</label>
+            <label class="option-label"><input type="checkbox" name="serv_acess" value="Banheiro adaptado"> Banheiro adaptado PCD</label>
+            <label class="option-label"><input type="checkbox" name="serv_acess" value="Piso tátil"> Pisos táteis de sinalização</label>
+            <label class="option-label"><input type="checkbox" name="serv_acess" value="Auditivo"> Recursos auditivos</label>
+            <label class="option-label"><input type="checkbox" name="serv_acess" value="Tecnologia Assistiva"> Equipamentos de assistência</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">8.1 - Itens de Despesa Custeados na Prestação do Serviço:</p>
+          <div class="checkbox-group" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));">
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Alimentação"> Alimentação</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Medicamentos"> Medicamentos</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Transporte usuários"> Transporte de usuários</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Transporte equipe"> Transporte da equipe</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Vestuário"> Vestuário</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Materiais pedagógicos"> Materiais pedagógicos</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Água, luz, telefone"> Água, luz, telefone</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Reformas / reparos"> Reformas / conservação</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Móveis e equipamentos"> Aquisição de móveis</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Pagamento de pessoal"> Pagamento de pessoal</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Tributos"> Tributos</label>
+            <label class="option-label"><input type="checkbox" name="serv_desp" value="Aluguel"> Aluguel</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <p class="question-title">9.0 - Recursos Humanos do Serviço:</p>
+          <div id="serv_rh_list"></div>
+          <button type="button" class="btn btn-secondary btn-sm no-print" onclick="addRHRow('serv_rh_list')" style="margin-top: 8px;">+ Adicionar Profissional</button>
+        </div>
+
+        <!-- Assinatura do Representante da Entidade -->
+        <div class="signature-section">
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <strong style="font-size: 0.92rem;">Representante Legal da Entidade</strong><br>
+            <span style="font-size: 0.8rem; color: #555;">Nome legível e Assinatura do Presidente / Diretor</span>
+            <div class="delivery-notice">📌 Imprimir, assinar e entregar na Secretaria de Assistência Social</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div id="toast" class="toast">Notificação</div>
+
+<script>
+  // Controle de Abas
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+    const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => {
+      const onclickAttr = b.getAttribute('onclick');
+      return onclickAttr && onclickAttr.includes(tabId);
+    });
+    if (activeBtn) activeBtn.classList.add('active');
+
+    const targetTab = document.getElementById(tabId);
+    if (targetTab) targetTab.classList.add('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Sincronização automática de CNPJ, Razão e Município entre todas as abas
+  function syncEntityFields() {
+    const cnpj = document.getElementById('entidade_cnpj').value;
+    const uf = document.getElementById('entidade_uf').value;
+    const mun = document.getElementById('entidade_municipio').value;
+    const razao = document.getElementById('entidade_razao_social').value;
+    const fantasia = document.getElementById('entidade_nome_fantasia').value;
+
+    document.querySelectorAll('.sync-cnpj').forEach(el => el.value = cnpj);
+    document.querySelectorAll('.sync-uf').forEach(el => el.value = uf);
+    document.querySelectorAll('.sync-mun').forEach(el => el.value = mun);
+    document.querySelectorAll('.sync-razao').forEach(el => el.value = razao);
+    document.querySelectorAll('.sync-fantasia').forEach(el => el.value = fantasia);
+    autoSave();
+  }
+
+  // Máscaras de formulário
+  function maskCNPJ(el) {
+    let v = el.value.replace(/\D/g, "");
+    if (v.length > 14) v = v.substring(0, 14);
+    v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+    v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+    v = v.replace(/(\d{4})(\d)/, "$1-$2");
+    el.value = v;
+  }
+
+  function maskCPF(el) {
+    let v = el.value.replace(/\D/g, "");
+    if (v.length > 11) v = v.substring(0, 11);
+    v = v.replace(/(\d{3})(\d)/, "$1.$2");
+    v = v.replace(/(\d{3})(\d)/, "$1.$2");
+    v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    el.value = v;
+  }
+
+  function maskCEP(el) {
+    let v = el.value.replace(/\D/g, "");
+    if (v.length > 8) v = v.substring(0, 8);
+    v = v.replace(/^(\d{5})(\d)/, "$1-$2");
+    el.value = v;
+  }
+
+  function maskPhone(el) {
+    let v = el.value.replace(/\D/g, "");
+    if (v.length > 11) v = v.substring(0, 11);
+    if (v.length > 10) {
+      v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
+    } else {
+      v = v.replace(/^(\d{2})(\d{4})(\d{4})$/, "($1) $2-$3");
+    }
+    el.value = v;
+  }
+
+  function maskMoney(el) {
+    let v = el.value.replace(/\D/g, "");
+    v = (v / 100).toFixed(2) + '';
+    v = v.replace(".", ",");
+    v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+    el.value = v ? 'R$ ' + v : '';
+  }
+
+  // Recursos Humanos Dinâmico
+  let rhCounters = { ben_rh_list: 0, ass_rh_list: 0, prog_rh_list: 0, serv_rh_list: 0 };
+
+  function addRHRow(containerId, initialData = null) {
+    rhCounters[containerId] = (rhCounters[containerId] || 0) + 1;
+    const index = rhCounters[containerId];
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const card = document.createElement('div');
+    card.className = 'rh-card';
+    card.id = `${containerId}_card_${index}`;
+
+    card.innerHTML = `
+      <div class="rh-card-header">
+        <span>Profissional #${index}</span>
+        <button type="button" class="btn btn-danger no-print btn-sm" onclick="removeRHRow('${card.id}')">Excluir</button>
+      </div>
+      <div class="form-grid">
+        <div class="form-group col-4">
+          <label>CPF <span class="req">*</span></label>
+          <input type="text" name="${containerId}_cpf[]" placeholder="000.000.000-00" oninput="maskCPF(this)" value="${initialData?.cpf || ''}">
+        </div>
+        <div class="form-group col-3">
+          <label>Data Nasc. <span class="req">*</span></label>
+          <input type="date" name="${containerId}_nasc[]" value="${initialData?.nasc || ''}">
+        </div>
+        <div class="form-group col-5">
+          <label>Nome Completo <span class="req">*</span></label>
+          <input type="text" name="${containerId}_nome[]" value="${initialData?.nome || ''}">
+        </div>
+        <div class="form-group col-4">
+          <label>RG</label>
+          <input type="text" name="${containerId}_rg[]" value="${initialData?.rg || ''}">
+        </div>
+        <div class="form-group col-3">
+          <label>Órgão emissor/UF</label>
+          <input type="text" name="${containerId}_orgao[]" placeholder="SSP/SP" value="${initialData?.orgao || ''}">
+        </div>
+        <div class="form-group col-5">
+          <label>Escolaridade</label>
+          <input type="text" name="${containerId}_escolaridade[]" placeholder="Superior Completo em..." value="${initialData?.escolaridade || ''}">
+        </div>
+        <div class="form-group col-4">
+          <label>Profissão</label>
+          <input type="text" name="${containerId}_profissao[]" placeholder="Assistente Social, Psicólogo..." value="${initialData?.profissao || ''}">
+        </div>
+        <div class="form-group col-4">
+          <label>E-mail</label>
+          <input type="email" name="${containerId}_email[]" value="${initialData?.email || ''}">
+        </div>
+        <div class="form-group col-4">
+          <label>Telefone</label>
+          <input type="text" name="${containerId}_tel[]" placeholder="(00) 00000-0000" oninput="maskPhone(this)" value="${initialData?.tel || ''}">
+        </div>
+        <div class="form-group col-6">
+          <label>Cargo / Função</label>
+          <input type="text" name="${containerId}_cargo[]" value="${initialData?.cargo || ''}">
+        </div>
+        <div class="form-group col-6">
+          <label>Tipo de Vínculo</label>
+          <input type="text" name="${containerId}_vinculo[]" placeholder="CLT, Estatutário, Voluntário, Prestador..." value="${initialData?.vinculo || ''}">
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+    autoSave();
+  }
+
+  function removeRHRow(cardId) {
+    const card = document.getElementById(cardId);
+    if (card) {
+      card.remove();
+      autoSave();
+    }
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 2800);
+  }
+
+  // Modos de Impressão e Geração de PDF
+  function printTabMode(mode) {
+    const activeTab = document.querySelector('.tab-content.active');
+    const activeTabId = activeTab ? activeTab.id : 'tab-entidade';
+
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.add('tab-inactive-print');
+    });
+
+    if (mode === 'current') {
+      if (activeTab) activeTab.classList.remove('tab-inactive-print');
+    } else if (mode === 'package') {
+      // Pacote Oficial: Cadastro Geral + Diagnóstico + Oferta Específica Aberta
+      const tabEntidade = document.getElementById('tab-entidade');
+      const tabDiag = document.getElementById('tab-diagnostico');
+      if (tabEntidade) tabEntidade.classList.remove('tab-inactive-print');
+      if (tabDiag) tabDiag.classList.remove('tab-inactive-print');
+      if (activeTab && activeTabId !== 'tab-entidade' && activeTabId !== 'tab-diagnostico') {
+        activeTab.classList.remove('tab-inactive-print');
+      }
+    } else if (mode === 'all') {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('tab-inactive-print');
+      });
+    }
+
+    window.print();
+
+    // Restaura visualização
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('tab-inactive-print');
+    });
+  }
+
+  // Persistência com LocalStorage
+  const STORAGE_KEY = 'cneas_full_data_v2';
+
+  function getFormValuesObject() {
+    const form = document.getElementById('cneasMainForm');
+    const formData = new FormData(form);
+    const data = {};
+
+    formData.forEach((value, key) => {
+      if (key.endsWith('[]')) {
+        if (!data[key]) data[key] = [];
+        data[key].push(value);
+      } else {
+        if (data[key]) {
+          if (!Array.isArray(data[key])) data[key] = [data[key]];
+          data[key].push(value);
+        } else {
+          data[key] = value;
+        }
+      }
+    });
+
+    return data;
+  }
+
+  function autoSave() {
+    try {
+      const data = getFormValuesObject();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch(e) {
+      console.warn("AutoSave falhou:", e);
+    }
+  }
+
+  function restoreData() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) {
+      addRHRow('ben_rh_list');
+      addRHRow('ass_rh_list');
+      addRHRow('prog_rh_list');
+      addRHRow('serv_rh_list');
+      return;
+    }
+
+    try {
+      const data = JSON.parse(saved);
+      populateFormData(data);
+    } catch(e) {
+      console.error("Erro ao restaurar:", e);
+    }
+  }
+
+  function populateFormData(data) {
+    const form = document.getElementById('cneasMainForm');
+
+    ['ben_rh_list', 'ass_rh_list', 'prog_rh_list', 'serv_rh_list'].forEach(id => {
+      const container = document.getElementById(id);
+      if (!container) return;
+      container.innerHTML = '';
+      const names = data[`${id}_nome[]`];
+      if (Array.isArray(names) && names.length > 0) {
+        for (let i = 0; i < names.length; i++) {
+          addRHRow(id, {
+            nome: names[i] || '',
+            cpf: data[`${id}_cpf[]`]?.[i] || '',
+            nasc: data[`${id}_nasc[]`]?.[i] || '',
+            rg: data[`${id}_rg[]`]?.[i] || '',
+            orgao: data[`${id}_orgao[]`]?.[i] || '',
+            escolaridade: data[`${id}_escolaridade[]`]?.[i] || '',
+            profissao: data[`${id}_profissao[]`]?.[i] || '',
+            email: data[`${id}_email[]`]?.[i] || '',
+            tel: data[`${id}_tel[]`]?.[i] || '',
+            cargo: data[`${id}_cargo[]`]?.[i] || '',
+            vinculo: data[`${id}_vinculo[]`]?.[i] || '',
+          });
+        }
+      } else {
+        addRHRow(id);
+      }
+    });
+
+    Object.keys(data).forEach(key => {
+      if (key.endsWith('[]')) return;
+      const elements = form.querySelectorAll(`[name="${key}"]`);
+      if (!elements || elements.length === 0) return;
+
+      const val = data[key];
+      elements.forEach(el => {
+        if (el.type === 'checkbox' || el.type === 'radio') {
+          if (Array.isArray(val)) {
+            el.checked = val.includes(el.value);
+          } else {
+            el.checked = (el.value === val);
+          }
+        } else {
+          el.value = val;
+        }
+      });
+    });
+  }
+
+  function exportDataJSON() {
+    const data = getFormValuesObject();
+    const cnpj = data['entidade_cnpj'] || 'entidade';
+    const filename = `CNEAS_Preenchido_${cnpj.replace(/\D/g, '') || 'dados'}.json`;
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast("Arquivo .JSON gerado com sucesso para devolução!");
+  }
+
+  function importDataJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        populateFormData(data);
+        showToast("Dados importados com sucesso!");
+        syncEntityFields();
+      } catch (err) {
+        alert("Arquivo JSON inválido.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function clearFormData() {
+    if (confirm("Deseja realmente limpar todos os campos preenchidos?")) {
+      localStorage.removeItem(STORAGE_KEY);
+      document.getElementById('cneasMainForm').reset();
+      location.reload();
+    }
+  }
+
+  // Auto-salvamento a cada alteração
+  document.getElementById('cneasMainForm').addEventListener('input', autoSave);
+  document.getElementById('cneasMainForm').addEventListener('change', autoSave);
+  
+  // Restaura dados salvos localmente ao carregar a página
+  window.addEventListener('DOMContentLoaded', () => {
+    restoreData();
+  });
+</script>
+
+</body>
+</html>
