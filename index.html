@@ -472,38 +472,87 @@
       letter-spacing: 0.2px;
     }
 
-    /* Banner de Instruções de Entrega */
-    .instructions-banner {
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
+    /* Card de Instruções Legível e Estruturado */
+    .instructions-card {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
       border-left: 5px solid var(--primary);
       border-radius: 8px;
-      padding: 14px 18px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
       box-shadow: var(--shadow);
     }
 
-    .instructions-icon {
+    .instructions-header {
+      margin-bottom: 12px;
+    }
+
+    .instructions-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      letter-spacing: 0.3px;
+    }
+
+    .instructions-badge svg {
+      flex-shrink: 0;
       color: var(--primary);
+    }
+
+    .instructions-body {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 10px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #ffffff;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #dcfce7;
+      font-size: 0.85rem;
+      color: #1f2937;
+      line-height: 1.4;
+    }
+
+    .step-number {
+      background: var(--primary);
+      color: #ffffff;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
     }
 
-    .instructions-text strong {
-      color: var(--primary-dark);
-      font-size: 0.92rem;
-      display: block;
-      margin-bottom: 2px;
+    .step-item strong {
+      color: var(--primary);
+      font-weight: 600;
+      display: inline !important;
     }
 
-    .instructions-text p {
-      color: #065f46;
-      font-size: 0.88rem;
-      line-height: 1.4;
+    .step-highlight {
+      background: #f0fdfa;
+      border-color: #99f6e4;
+    }
+
+    .step-highlight .step-number {
+      background: #0f766e;
+    }
+
+    .step-highlight strong {
+      color: #0f766e;
     }
 
     /* Barra de Ações por Aba */
@@ -857,14 +906,31 @@
     </div>
   </header>
 
-  <!-- Banner de Orientações de Preenchimento e Entrega -->
-  <div class="instructions-banner no-print">
-    <div class="instructions-icon">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+  <!-- Card de Orientações de Preenchimento e Devolução -->
+  <div class="instructions-card no-print">
+    <div class="instructions-header">
+      <div class="instructions-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        INSTRUÇÕES DE PREENCHIMENTO E DEVOLUÇÃO
+      </div>
     </div>
-    <div class="instructions-text">
-      <strong>INSTRUÇÕES DE PREENCHIMENTO E DEVOLUÇÃO:</strong>
-      <p>Preencha as informações solicitadas nos campos abaixo. Ao terminar, clique em <strong>"Imprimir / Salvar em PDF"</strong>, <strong>assine no campo do Representante Legal da Entidade</strong> e <strong>entregue na Secretaria de Assistência Social</strong>.</p>
+    <div class="instructions-body">
+      <div class="step-item">
+        <span class="step-number">1</span>
+        <div><strong>Preenchimento:</strong> Insira os dados da entidade e das ofertas nos campos abaixo.</div>
+      </div>
+      <div class="step-item">
+        <span class="step-number">2</span>
+        <div><strong>Impressão:</strong> Ao terminar, clique em <strong>"Imprimir / Salvar em PDF"</strong>.</div>
+      </div>
+      <div class="step-item">
+        <span class="step-number">3</span>
+        <div><strong>Assinatura:</strong> Colete a assinatura do <strong>Representante Legal da Entidade</strong>.</div>
+      </div>
+      <div class="step-item step-highlight">
+        <span class="step-number">4</span>
+        <div><strong>Devolução:</strong> Entregue o documento assinado na <strong>Secretaria de Assistência Social</strong>.</div>
+      </div>
     </div>
   </div>
 
